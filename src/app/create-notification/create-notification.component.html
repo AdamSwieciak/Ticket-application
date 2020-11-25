@@ -1,0 +1,61 @@
+<form [formGroup]="addressForm" novalidate (ngSubmit)="onSubmit()">
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <mat-card-title>Notification information</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Category" formControlName="category">
+              <mat-option *ngFor="let category of categorys" [value]="category.name">
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="addressForm.controls['category'].hasError('required')">
+              Category is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="First name" formControlName="firstName">
+            <mat-error *ngIf="addressForm.controls['firstName'].hasError('required')">
+              First name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Last name" formControlName="lastName">
+            <mat-error *ngIf="addressForm.controls['lastName'].hasError('required')">
+              Last name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <mat-form-field class="full-width">
+          <mat-select placeholder="Priority" formControlName="priority">
+            <mat-option *ngFor="let priority of prioritys" [value]="priority.length">
+              {{ priority.length }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="addressForm.controls['priority'].hasError('required')">
+            Priority is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <section>
+          <mat-checkbox>High priority</mat-checkbox>
+        </section>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
