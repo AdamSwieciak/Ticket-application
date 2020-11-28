@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-create-notification',
@@ -41,9 +42,11 @@ export class CreateNotificationComponent {
     {length: '1-30d'},
   ]
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private notificationService: NotificationService) {}
 
   onSubmit() {
-    console.log(this.addressForm.value['category'])
+    this.notificationService.onSaveData(this.addressForm.value)
   }
+
+
 }
