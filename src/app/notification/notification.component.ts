@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FormControl } from '@angular/forms';
 import { NotificationService } from '../notification.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 
 export class NotificationComponent implements OnDestroy, OnInit {
 
-  subscription = Subscription
+  private filterForm: Subscription
   myControl = new FormControl();
   options: string[] = ['Sort by category', 'Sort by applicant', 'Sort by priority'];
   
@@ -36,14 +36,37 @@ export class NotificationComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.subscription = this.myControl.value.subscribe((value) => {
-      this.myControl.value != value? console.log(value): null
-      
+    this.filterForm = this.myControl.valueChanges.subscribe(val => {
+      switch(val) {
+        case 'Sort by category':
+          this.sortValCategory()
+          break;
+        case 'Sort by applicant':
+          this.sortValApplicant()
+          break;
+        case 'Sort by priority':
+          this.sortValPriority()
+          break;
+      }
     })
+  }
+
+  sortValCategory() {
+    this.todo.sort((a, b) => a.category.localeCompare(b.category))
+    this.done.sort((a, b) => a.category.localeCompare(b.category))
+  }
+  
+  sortValApplicant() {
+    this.todo.sort((a, b) => a.lastName.localeCompare(b.lastName))
+    this.done.sort((a, b) => a.lastName.localeCompare(b.lastName))
+  }
+  sortValPriority() {
+    this.todo.sort((a, b) => a.priority.localeCompare(b.priority))
+    this.done.sort((a, b) => a.priority.localeCompare(b.priority))
   }
 
   ngOnDestroy() {
     this.notificationService.updateNotifications(this.todo, this.done)
-    console.log(this.myControl.value)
+    this.filterForm.unsubscribe()
   }
  }

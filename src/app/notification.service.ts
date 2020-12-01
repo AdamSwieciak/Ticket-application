@@ -6,7 +6,8 @@ import { Notification } from './notification.model'
   providedIn: 'root'
 })
 export class NotificationService {
-  notificationChanged = new Subject<Notification[]>();
+  notificationToDoChanged = new Subject<Notification[]>();
+  notificationDoneChanged = new Subject<Notification[]>();
 
   private notificationToDo: Notification[] = [];
   private notificationDone: Notification[] = [];
@@ -15,7 +16,7 @@ export class NotificationService {
 
   onSaveData(notification: Notification) {
     this.notificationToDo.push(notification);
-    this.notificationChanged.next(this.notificationToDo.slice());
+    this.notificationToDoChanged.next(this.notificationToDo.slice());
     alert("Your application has been saved")
   }
 
